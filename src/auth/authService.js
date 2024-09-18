@@ -82,6 +82,8 @@ const requestNewPasswordReset = async (email) => {
   }
 };
 
+//get users
+
 //Logout user
 const logout = async (accessToken) => {
   // Assuming the backend API has a logout endpoint to invalidate the token

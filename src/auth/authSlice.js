@@ -99,6 +99,7 @@ export const requestNewPasswordReset = createAsyncThunk('auth/requestNewPassword
   }
 })
 
+// Get user
 
 
 // Auth slice

@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const handlePasswordResetClick = () => {
-    navigate('/request-reset-password'); // Replace with the actual route path for your password reset page
+    navigate('/request-reset-password'); 
  };
 
   return (
@@ -16,7 +17,7 @@ const Dashboard = () => {
   className='btn btn-block small-button'>
   Request Password Reset
 </button>
-      {/* Add other dashboard content here */}
+    
     </div>
   );
 };
