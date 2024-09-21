@@ -11,7 +11,7 @@ const RequestNewVerificationEmail = () => {
     if (email) {
       dispatch(sendNewVerificationEmail(email)); // Dispatch action to request new verification email
     } else {
-      alert('Please enter your email address.'); // Alert if email is not provided
+      alert('Please enter your email address.'); 
     }
   };
 
@@ -26,8 +26,8 @@ const RequestNewVerificationEmail = () => {
       <button onClick={handleRequestNewEmail} disabled={isLoading}>
         {isLoading ? 'Sending...' : 'Request New Verification Email'}
       </button>
-      {isSuccess && <p>{message}</p>} {/* Display success message */}
-      {isError && <p>{message}</p>} {/* Display error message */}
+      {isSuccess && <p>{message}</p>}
+      {isError && <p>{message}</p>} 
     </div>
   );
 };

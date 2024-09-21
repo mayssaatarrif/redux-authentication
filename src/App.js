@@ -11,6 +11,13 @@ import RequestNewVerificationEmail from './pages/requestNewVerificationEmail';
 import RequestPasswordReset from '../src/pages/RequestPasswordReset'
 import ResetPassword from './pages/ResetPassword';
 import RequestNewPasswordReset from './pages/RequestNewPassword';
+import UserList from './users/userList';
+import UpdateUserForm from './pages/UpdateUsers';
+import NotePage from './pages/NotePage';
+import NoteList from './pages/NoteList';
+import UpdateNotePage from './pages/UpdateNotes';
+
+
 function App() {
   return (
     <>
@@ -28,6 +35,11 @@ function App() {
       <Route path='/request-reset-password' element={<RequestPasswordReset/>}/>
       <Route path='/reset-password' element={<ResetPassword/>}/>
       <Route path='/request-new-password-reset' element={<RequestNewPasswordReset/>}/>
+      <Route path='/userList' element = {<UserList/>}/>
+      <Route path='/update-user' element = {<UpdateUserForm/>}/>
+      <Route path ='/note-page' element ={<NotePage/>}/>
+      <Route path ='/note-list' element ={<NoteList/>}/>
+      <Route path ='/update-notes/:noteId' element ={<UpdateNotePage/>}/>
      </Routes>
     </div>
     </Router>

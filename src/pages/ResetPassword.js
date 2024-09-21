@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetPassword } from '../auth/authSlice'; // Adjust the import path as needed
-import Spinner from '../component/Spinner'; // Adjust the import path as needed
+import { resetPassword } from '../auth/authSlice'; 
+import Spinner from '../component/Spinner'; 
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');

@@ -4,6 +4,7 @@ const API_URL = 'https://my-notes-app-apis.onrender.com/api/auth/';
 // Register user
 const register = async (userData) => {
   const response = await axios.post(API_URL + 'signup', userData);
+  console.log('Register response from authService:', response); 
   return {
     user: response.data.user,
     accessToken: response.data.accessToken,
@@ -12,12 +13,18 @@ const register = async (userData) => {
 };
 
 //Login user
-const login= async (userData) => {
+const login = async (userData) => {
   const response = await axios.post(API_URL + 'signin', userData);
+  console.log('Full login response:', response);
+  console.log(`Status code: ${response.data.statusCode}`); 
+  console.log(`Message: ${response.data.message}`);
+  console.log(`Access Token: ${response.data.data.accessToken}`); 
+  console.log(`User:`, response.data.data.user);
+
   return {
-    user: response.data.user,
-    accessToken: response.data.accessToken,
-    refreshToken: response.data.refreshToken,
+    user: response.data.data.user,
+    accessToken: response.data.data.accessToken,
+    refreshToken: response.data.data.refreshToken,
   };
 };
 
@@ -26,7 +33,7 @@ const verifyEmailCode = async (code,email) => {
   try {
     const response = await axios.post('https://my-notes-app-apis.onrender.com/api/auth/verify-email', { 
       email,
-      code });  // Assuming the API expects the code in the body
+      code }); 
     return response.data;
   } catch (error) {
     console.error('Verification failed:', error.response?.data || error.message);
@@ -82,11 +89,11 @@ const requestNewPasswordReset = async (email) => {
   }
 };
 
-//get users
+
 
 //Logout user
 const logout = async (accessToken) => {
-  // Assuming the backend API has a logout endpoint to invalidate the token
+  
   await axios.post(API_URL + 'signout', {}, {
     headers: {
       Authorization: `Bearer ${accessToken}`, // Sending the token to be invalidated
@@ -94,7 +101,7 @@ const logout = async (accessToken) => {
   });
 };
 
-const refreshAccessToken = async (refreshToken) => {
+/*const refreshAccessToken = async (refreshToken) => {
   try {
     const response = await axios.post(API_URL + 'refresh-token', { refreshToken });
     return response.data;
@@ -102,13 +109,13 @@ const refreshAccessToken = async (refreshToken) => {
     console.error('Failed to refresh access token:', error.response?.data || error.message);
     throw error;
   }
-};
+};*/
 
 
 
 const authService = { register, logout, login, 
   verifyEmailCode,requestNewVerificationEmail, requestPasswordReset,
   resetPassword,requestNewPasswordReset
-  ,refreshAccessToken
+  ,/*refreshAccessToken*/
 };
 export default authService;

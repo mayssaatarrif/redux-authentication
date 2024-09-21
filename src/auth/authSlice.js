@@ -1,10 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './authService';
+import axiosInstance from '../axiosInstance';
 
 // Register user
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
+export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
   try {
-    return await authService.register(user);
+    const response = await authService.register(userData);
+    console.log('Register response in thunk:', response); // Log to verify
+
+    const { user, accessToken, refreshToken } = response;
+
+    // Update tokens in Redux state
+    thunkAPI.dispatch(updateTokens({ accessToken, refreshToken }));
+
+    // Return user and tokens
+    return { user, accessToken, refreshToken };
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -14,18 +24,30 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
   }
 });
 
+
 // Login user
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
-    try {
-      return await authService.login(user)
-    } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-})
+export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
+  try {
+    const response = await authService.login(userData);
+    console.log('Login response:', response); // Log the entire response
+
+    // Check if the response structure is correct
+    const { user, accessToken, refreshToken } = response;
+
+    // Update tokens in Redux state
+    thunkAPI.dispatch(setCredentials({ accessToken, refreshToken, user }));
+    
+    // Return user and tokens
+    return { user, accessToken, refreshToken };
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 
 //Logout user
 export const logout = createAsyncThunk('auth/logout',
@@ -99,8 +121,6 @@ export const requestNewPasswordReset = createAsyncThunk('auth/requestNewPassword
   }
 })
 
-// Get user
-
 
 // Auth slice
 const authSlice = createSlice({
@@ -124,6 +144,14 @@ const authSlice = createSlice({
     updateTokens: (state, action) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+    },
+    setCredentials: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+      if (action.payload.accessToken) {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${action.payload.accessToken}`;
+      } else {
+        delete axiosInstance.defaults.headers.common['Authorization'];
+      }
     },
   },
   extraReducers: (builder) => {
@@ -232,5 +260,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset,updateTokens } = authSlice.actions;
+export const { reset,updateTokens,setCredentials } = authSlice.actions;
 export default authSlice.reducer;
