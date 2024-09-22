@@ -27,30 +27,25 @@ export const createNotes = createAsyncThunk('notes/createNotes', async (noteData
     }
   );
 
-   //Update notes
-   export const updateNotes = createAsyncThunk('notes/updateNotes', async ({id,updatedNoteData}, thunkAPI) => {
-    try {
-      return await noteService.updateNotes(updatedNoteData, id);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+//Update notes
+export const updateNotes = createAsyncThunk('notes/updateNotes', async ({id, updatedNoteData}, thunkAPI) => {
+  try {
+    return await noteService.updateNotes(updatedNoteData, id);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data || error.message);
+  }});
 
-    }
-  });
-
-  //Delete notes
-  export const deleteNotes = createAsyncThunk('notes/deleteNotes', async ({id}, thunkAPI) => {
-    try {
-      return await noteService.deleteNotes(id);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data || error.message);
-
-    }
-  });
-
+//Delete notes
+export const deleteNotes = createAsyncThunk('notes/deleteNotes', async ({id}, thunkAPI) => {
+  try {
+    return await noteService.deleteNotes(id);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data || error.message);
+  }});
   const noteSlice = createSlice({
     name: 'notes',
     initialState: {
-      notes: [],  // Ensure that notes is always an array, not undefined
+      notes: [], 
       status: 'idle',
       currentNoteId: null,
       isLoading: false,
@@ -97,7 +92,7 @@ export const createNotes = createAsyncThunk('notes/createNotes', async (noteData
           state.isLoading = false;
           const index = state.notes.findIndex(note => note._id === action.payload._id);
           if (index !== -1) {
-            state.notes[index] = action.payload; // Update the note
+            state.notes[index] = action.payload;
           }
         })
         
@@ -111,9 +106,9 @@ export const createNotes = createAsyncThunk('notes/createNotes', async (noteData
         })
         .addCase(deleteNotes.fulfilled, (state, action) => {
           state.isLoading = false;
-          state.notes= action.payload;
-
+          state.notes = state.notes.filter(note => note._id !== action.meta.arg.id); // Filter out the deleted note
         })
+  
         .addCase(deleteNotes.rejected, (state, action) => {
           state.isLoading = false;
           state.notes = state.notes.filter(note => note._id !== action.payload._id); // Filter out the deleted note

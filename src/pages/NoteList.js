@@ -24,7 +24,8 @@ const NoteList = () => {
 
   const handleDelete = async (noteId) => {
     try {
-      await dispatch(deleteNotes(noteId));
+      dispatch(deleteNotes({ id: noteId }));
+      console.log('Deleting note with ID:', noteId);
       dispatch(getNotes()); // Refresh the list after deletion
     } catch (error) {
       console.error('Failed to delete note:', error);
