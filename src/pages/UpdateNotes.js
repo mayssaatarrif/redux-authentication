@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateNotes, getNotes } from '../notes/notesSlice'; // Assuming you have a fetchNote action
+import { updateNotes, getNoteById } from '../notes/notesSlice'; 
 import { reset } from '../auth/authSlice';
 import { useNavigate,useParams } from 'react-router-dom';
 const UpdateNotePage = () => {
   const dispatch = useDispatch();
   const { currentNote, isSuccess, isLoading, isError, message } = useSelector((state) => state.notes);
-  //const noteId = useSelector((state) => state.notes.currentNoteId)
   const navigate = useNavigate()
   
 
@@ -22,10 +21,9 @@ const UpdateNotePage = () => {
   const { category, title, text } = state;
 
   useEffect(() => {
-
-    dispatch(getNotes(noteId)); // Assume fetchNote is implemented to get the specific note
+    dispatch(getNoteById(noteId)); 
   }, [dispatch, noteId]);
-
+  
   useEffect(() => {
     if (currentNote) {
       setState({
@@ -57,14 +55,16 @@ const UpdateNotePage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    navigate('/note-list')
+  
     const updatedData = {
       category,
       title,
       text,
     };
-    dispatch(updateNotes({ id: noteId, updatedData }));
+    dispatch(updateNotes({ id: noteId, updatedNoteData: updatedData })); // Correct the payload structure
+    navigate('/note-list');
   };
+  
 
   
 

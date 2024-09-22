@@ -36,6 +36,7 @@ export const updateNotes = async (updatedNoteData, id) => {
   }
 };
 
+
 //Delete notes
 export const deleteNotes = async (id) => {
   try {
@@ -48,5 +49,17 @@ export const deleteNotes = async (id) => {
   }
 };
 
-const noteService = { createNotes,getNotes,updateNotes,deleteNotes };
+ // Get single note by ID
+export const getNoteById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/notes/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching note by ID:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
+
+
+const noteService = { createNotes,getNotes,updateNotes,deleteNotes,getNoteById };
 export default noteService;
