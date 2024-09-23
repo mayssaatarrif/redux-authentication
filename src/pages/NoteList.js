@@ -41,8 +41,15 @@ const NoteList = () => {
               <h3>{note.title}</h3>
               <p>{note.text}</p>
               <div className='form-group'>
-                <button onClick={() => navigate(`/update-notes/${note._id}`)}>Edit</button>
-                <button onClick={() => handleDelete(note._id)}>Delete</button>
+                <button onClick={() => navigate(`/update-notes/${note._id}`)}
+                 className='btn btn-block small-button'
+                style={{ width: '200px', fontSize: '12px', display: 'block', margin: '0 auto',}} 
+                >Edit</button>
+                <br/>
+                <button onClick={() => handleDelete(note._id)}
+                  className='btn btn-block small-button'
+                  style={{ width: '200px', fontSize: '12px', display: 'block', margin: '0 auto',}} 
+                  >Delete</button>
               </div>
             </div>
           ) : null // Avoid rendering if note or title is missing

@@ -33,7 +33,11 @@ const UserList = () => {
       <p>{users.email}</p>   
     </div>
       </ul>
-      <button onClick={() => handleDelete()}>Delete User</button>
+      <br/>
+      <button onClick={() => handleDelete()}
+        className='btn btn-block small-button'
+        style={{ width: '200px', fontSize: '12px', display: 'block', margin: '0 auto',}} 
+        >Delete User</button>
     </div>
   );
 };

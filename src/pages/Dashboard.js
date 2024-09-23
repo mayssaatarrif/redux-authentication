@@ -15,13 +15,22 @@ const Dashboard = () => {
       <h1>Dashboard</h1>
       <button 
   onClick={handlePasswordResetClick} 
-  className='btn btn-block small-button'>
+  className='btn btn-block small-button'
+  style={{ width: '200px', fontSize: '12px', display: 'block', margin: '0 auto',}} >
   Request Password Reset
 </button>
+<br/>
   <UserList/>
-  <button onClick={() => navigate('/update-user')}>Go To Update User</button>
   <br/>
-  <button onClick={() => navigate('/note-page')}>Go To Note Page</button>
+  <div className='form-group'>      
+  <button onClick={() => navigate('/update-user')} className='btn btn-block small-button'
+    style={{ width: '200px', fontSize: '12px', display: 'block', margin: '0 auto',}} 
+  >Go To Update User</button>
+  <br/>
+  <button onClick={() => navigate('/note-page')} className='btn btn-block small-button'
+    style={{ width: '200px', fontSize: '12px', display: 'block', margin: '0 auto',}} >
+      Go To Note Page</button>
+          </div>
     </div>
   );
 };
